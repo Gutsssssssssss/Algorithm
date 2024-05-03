@@ -9,6 +9,7 @@ public class Main {
 
 	static int n, m;
 	static int[] numbers;
+	static StringBuilder sb = new StringBuilder();
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -17,13 +18,14 @@ public class Main {
 		boolean[] visited = new boolean[n+1];
 		numbers = new int[m];
 		go(0, 1);
+		System.out.println(sb);
 	}
 	static void go(int cnt, int start) {
 		if(cnt==m) {
 			for(int i=0; i<m; i++) {
-				System.out.print(numbers[i] + " ");
+				sb.append(numbers[i] + " ");
 			}
-			System.out.println();
+			sb.append("\n");
 			return;
 		}
 		for(int i=start; i<=n; i++) {
