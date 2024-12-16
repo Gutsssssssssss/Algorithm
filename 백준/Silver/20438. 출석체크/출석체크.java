@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
+		StringBuilder sb = new StringBuilder();
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
 		Q = Integer.parseInt(st.nextToken());
@@ -46,8 +46,9 @@ public class Main {
 			int S = Integer.parseInt(st.nextToken());
 			int E = Integer.parseInt(st.nextToken());
 			
-			System.out.println(psum[E] - psum[S-1]);
+			sb.append(psum[E] - psum[S-1]).append("\n");
 		}
+		System.out.println(sb);
 	
 		
 		
