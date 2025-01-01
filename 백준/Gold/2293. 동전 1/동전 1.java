@@ -20,8 +20,7 @@ public class Main {
 		
 		for (int j = 1; j <= N; j++) {
 			int cur = arr[j];
-			for (int i = 1; i <= K; i++) {
-				if (i - cur < 0) continue;
+			for (int i = cur; i <= K; i++) {
 				dp[i] = dp[i] + dp[i-cur];
 			}
 		}
