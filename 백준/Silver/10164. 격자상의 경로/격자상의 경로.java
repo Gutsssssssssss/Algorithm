@@ -12,7 +12,7 @@ public class Main {
 		int M = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		
-		int[][] dp = new int[N+1][M+1];
+		long[][] dp = new long[N+1][M+1];
 		
 		if (K == 0) {
 			for (int i = 1; i <= N; i++) {
@@ -27,6 +27,10 @@ public class Main {
 		} else {
 			int ei = K / M + 1;
 			int ej = K % M;
+			if (K % M == 0) {
+				ei = K / M;
+				ej = M;
+			}
 			
 			for (int i = 1; i <= ei; i++) {
 				for (int j = 1; j <= ej; j++) {
@@ -38,7 +42,7 @@ public class Main {
 				}
 			}
 			
-			int val = dp[ei][ej];
+			long val = dp[ei][ej];
 			
 			for (int i = ei; i <= N; i++) {
 				for (int j = ej; j <= M; j++) {
