@@ -8,43 +8,59 @@ import java.util.StringTokenizer;
 public class Main {
 	
 	static int N;
-	static ArrayList<String> list;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
-		list = new ArrayList<String>();
-		go(0, "");
-		Collections.sort(list);
-//		for (int i = 0; i < list.size(); i++) {
-//			System.out.println(list.get(i));
-//		}
-		if (K - 1 >= list.size()) {
-			System.out.println(-1);
+		
+		ArrayList<String>[] dp = new ArrayList[N+1];
+		for (int i = 1; i <= N; i++) {
+			dp[i] = new ArrayList<String>();
+		}
+		
+		dp[1].add("1");
+		if (N == 1) {
+			
+			if (K > dp[N].size()) {
+				System.out.println(-1);
+				return;
+			} else {
+				System.out.println(dp[N].get(K-1));
+			}
 			return;
 		}
-		String s = list.get(K - 1);
-		for (int i = 0; i < s.length(); i++) {
-			System.out.print(s.charAt(i));
-			if (i == s.length() - 1) continue;
-			System.out.print("+");
+		dp[2].add("1+1");
+		dp[2].add("2");
+		if (N == 2) {
+			if (K > dp[N].size()) {
+				System.out.println(-1);
+				return;
+			} else {
+				System.out.println(dp[N].get(K-1));
+			}
+			return;
+		}
+		dp[3].add("1+1+1");
+		dp[3].add("1+2");
+		dp[3].add("2+1");
+		dp[3].add("3");
+		
+		for (int i = 4; i <= N; i++) {
+			for (int j = 1; j <= 3; j++) {
+				for (int k = 0; k < dp[i-j].size(); k++) {
+					dp[i].add(j + "+" + dp[i-j].get(k));
+				}
+			}
+		}
+		if (K > dp[N].size()) {
+			System.out.println(-1);
+			return;
+		} else {
+			System.out.println(dp[N].get(K-1));
 		}
 	} // main
 	
-	static void go(int num, String cur) {
-		if (num == N) {
-			list.add(cur);
-			return;
-		}
-		
-		if (cur.length() > N) {
-			return;
-		}
-		
-		for (int i = 1; i <= 3; i++) {
-			go(num + i, cur + i);
-		}
-	}
+	
 }
