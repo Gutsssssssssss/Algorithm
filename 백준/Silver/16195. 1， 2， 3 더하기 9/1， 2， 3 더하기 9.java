@@ -33,7 +33,8 @@ public class Main {
 			
 			long sum = 0;
 			for (int i = 1; i <= M; i++) {
-				sum = (sum + dp[N][i]) % 1_000_000_009;
+				sum += (dp[N][i]) % 1_000_000_009;
+				sum %= 1_000_000_009;
 			}
 			System.out.println(sum);
 		} // TC
