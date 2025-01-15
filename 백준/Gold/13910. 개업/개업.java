@@ -31,7 +31,7 @@ public class Main {
 				int b = arr[i];
 				int c = arr[j];
 				for (int k = 0; k <= N; k++) {
-					if (dp[k] != -1) {
+					if (dp[k] != Integer.MAX_VALUE / 2) {
 						if (k + a <= N) {
 							dp[k+a] = Math.min(dp[k] + 1, dp[k+a]);
 						}
