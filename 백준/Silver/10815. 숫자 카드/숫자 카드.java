@@ -24,11 +24,12 @@ public class Main {
 		
 		st = new StringTokenizer(br.readLine());
 		Collections.sort(list);
+		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i <= M; i++) {
 			int cur = Integer.parseInt(st.nextToken());
 			int c = Collections.binarySearch(list, cur);
-			System.out.print(c >= 0 ? 1 : 0);
-			System.out.print(" ");
+			sb.append(c >= 0 ? 1 : 0).append(" ");
 		}
+		System.out.println(sb);
 	} // main
 }
