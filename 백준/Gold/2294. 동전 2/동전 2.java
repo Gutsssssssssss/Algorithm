@@ -5,28 +5,26 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int n, k;
-    static int[] a;
-    static int[] dp;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
-        a = new int[n];
-        dp = new int[k+1];
-        for(int i=0; i<n; i++) {
-            a[i] = Integer.parseInt(br.readLine());
-        }
-        Arrays.fill(dp, Integer.MAX_VALUE/2);
-        dp[0] = 0;
-        for(int i=0; i<n; i++) {
-            for(int j=1; j<=k; j++) {
-                if(j-a[i]<0) continue;
-                dp[j] = Math.min(dp[j], dp[j-a[i]] + 1);
-            }
-        }
-        if(dp[k] == Integer.MAX_VALUE/2) System.out.println(-1);
-        else System.out.println(dp[k]);
-    } // main
-} // class
+    
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
+		
+		int[] arr = new int[N+1];
+		for (int i = 1; i <= N; i++) {
+			arr[i] = Integer.parseInt(br.readLine());
+		}
+		
+		int[] dp = new int[K+1];
+		Arrays.fill(dp, Integer.MAX_VALUE / 2);
+		dp[0] = 0;
+		for (int i = 1; i <= N; i++) {
+			for (int j = arr[i]; j <= K; j++) {
+				dp[j] = Math.min(dp[j], dp[j - arr[i]] + 1);
+			}
+		}
+		System.out.println(dp[K] == Integer.MAX_VALUE / 2 ? -1 : dp[K]);
+	} // main
+}
