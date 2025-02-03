@@ -25,20 +25,18 @@ public class Main {
 		for (int i = 1; i <= N; i++) {
 			int cur = arr[i];
 			int pos = Collections.binarySearch(list, cur);
-			if (pos >= 0) {
-				idxArr[i] = pos;
-				continue;
+			if (pos < 0) {
+				pos = -pos - 1;
+			}
+			
+			if (pos == list.size()) {
+				list.add(cur);
 			} else {
-				pos = (-pos - 1);
-				if (pos == list.size()) {
-					list.add(cur);
-					cnt++;
-				} else {
-					list.set(pos, cur);
-				}
+				list.set(pos, cur);
 			}
 			idxArr[i] = pos;
 		}
+		cnt = list.size();
 		System.out.println(cnt);
 		Stack<Integer> stk = new Stack<Integer>();
 		int idx = cnt;
