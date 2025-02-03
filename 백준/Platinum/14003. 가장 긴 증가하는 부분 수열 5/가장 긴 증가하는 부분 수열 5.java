@@ -48,9 +48,11 @@ public class Main {
 				idx--;
 			}
 		}
+		StringBuilder sb = new StringBuilder();
 		while (!stk.isEmpty()) {
-			System.out.print(stk.pop() + " ");
+			sb.append(stk.pop()).append(" ");
 		}
+		System.out.println(sb);
 	} // main
 	
 	
