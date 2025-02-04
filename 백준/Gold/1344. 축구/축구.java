@@ -29,7 +29,7 @@ public class Main {
 			return (check[y] || check[x]) ? 1.0 : 0.0;
 		}
 		
-		if (dp[y][x][cnt] > -0.5) {
+		if (dp[y][x][cnt] != -1.0) {
 			return dp[y][x][cnt];
 		}
 		double ret = 0.0;
