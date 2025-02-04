@@ -1,15 +1,19 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-	
-	static final int INF = Integer.MAX_VALUE / 2;
+    
 	static int N, M;
-	static char[][] arr;
-	static boolean[][] visited;
 	static int[][] dp;
+	static char[][] map;
+	static boolean[][] visited;
 	static int[] dy = {-1, 0, 1, 0};
 	static int[] dx = {0, 1, 0, -1};
 	public static void main(String[] args) throws IOException {
@@ -17,40 +21,42 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
-		arr = new char[N][M];
+		
+		map = new char[N][M];
 		visited = new boolean[N][M];
 		dp = new int[N][M];
 		for (int i = 0; i < N; i++) {
 			String s = br.readLine();
 			for (int j = 0; j < M; j++) {
-				arr[i][j] = s.charAt(j);
+				map[i][j] = s.charAt(j);
+				dp[i][j] = -1;
 			}
 		}
-		int ans = dfs(0, 0);
-		System.out.println(ans >= INF ? -1 : ans);
+		int ans = go(0, 0);
+		System.out.println(ans >= Integer.MAX_VALUE / 2 ? - 1 : ans);
 	} // main
-	static int dfs(int y, int x) {
-		if (y < 0 || y >= N || x < 0 || x >= M || arr[y][x] == 'H') {
+	
+	static int go(int y, int x) {
+		if ((y < 0 || y >= N || x < 0 || x >= M) ||  map[y][x] == 'H') {
 			return 0;
 		}
 		
+		int ret = 0;
+		int val = map[y][x] - '0';
+		
+		if (dp[y][x] != -1) return dp[y][x];
+
 		if (visited[y][x]) {
-			return INF;
+			return Integer.MAX_VALUE / 2;
 		}
-		
-		if (dp[y][x] != 0) {
-			return dp[y][x];
-		}
-		
 		visited[y][x] = true;
-		int num = arr[y][x] - '0';
 		
 		for (int d = 0; d < 4; d++) {
-			int ny = y + dy[d];
-			int nx = x + dx[d];
-			dp[y][x] = Math.max(dp[y][x], dfs(y + num * dy[d], x + num * dx[d]) + 1);
+			int ny = y + dy[d] * val;
+			int nx = x + dx[d] * val;
+			ret = Math.max(ret, go(ny, nx) + 1);
 		}
 		visited[y][x] = false;
-		return dp[y][x];
+		return dp[y][x] = ret;
 	}
 }
