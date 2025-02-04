@@ -1,52 +1,44 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-
-	static int n, ret=Integer.MAX_VALUE;
-	static int[][] dist;
-	static int[] visited, a;
+    
+	static final int INF = Integer.MAX_VALUE / 2;
+	static int N;
+	static int[][] W;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		n = Integer.parseInt(br.readLine());
-		dist = new int[n][n];
-		for(int i=0; i<n; i++) {
+		N = Integer.parseInt(br.readLine());
+		
+		W = new int[N][N];
+		for (int i = 0; i < N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			for(int j=0; j<n; j++) {
-				dist[i][j] = Integer.parseInt(st.nextToken());
+			for (int j = 0; j < N; j++) {
+				W[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-		visited = new int[n];
-		a = new int[n];
-		perm(0, visited);
-		System.out.println(ret);
-	} // end of main
+		int ans = go(1, 0);
+		System.out.println(ans);
+	} // main
 	
-	static void calc() {
-		int temp = 0;
-		for(int i=1; i<n; i++) {
-			if(dist[a[i-1]][a[i]] == 0) return;
-			temp += dist[a[i-1]][a[i]];
+	static int go(int visited, int here) {
+		if (visited == (1 << N) - 1) {
+			return W[here][0] == 0 ? INF : W[here][0];
 		}
-		if(dist[a[n-1]][a[0]] == 0) return;
-		temp += dist[a[n-1]][a[0]];
-//		System.out.println(temp);
-		ret = Math.min(ret, temp);
+		
+		int ret = INF;
+		for (int i = 0; i < N; i++) {
+			if ((visited & (1 << i)) != 0) continue;
+			if (W[here][i] == 0) continue;
+			ret = Math.min(ret, go(visited | (1 << i), i) + W[here][i]);
+		}
+		return ret;
 	}
-	
-	static void perm(int idx, int[] visited) {
-		if(idx == n) {
-			calc();
-			return;
-		}
-		for(int i=0; i<n; i++) {
-			if(visited[i] != 0) continue;
-			visited[i] = 1;
-			a[idx] = i;
-			perm(idx+1, visited);
-			visited[i] = 0;
-		}
-	}
-} // end of class
+}
