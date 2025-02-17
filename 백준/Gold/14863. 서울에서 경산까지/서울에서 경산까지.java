@@ -7,6 +7,7 @@ public class Main {
 	
 	static int N, K;
 	static int[][] arr;
+	static int[][] dp;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -14,6 +15,13 @@ public class Main {
 		K = Integer.parseInt(st.nextToken());
 		
 		arr = new int[N+1][4];
+		dp = new int[N+1][K+1];
+		
+		for (int i = 0; i <= N; i++) {
+			for (int j = 0; j <= K; j++) {
+				dp[i][j] = -1;
+			}
+		}
 		
 		for (int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -35,11 +43,15 @@ public class Main {
 			return 0;
 		}
 		
+		if (dp[here][time] != -1) {
+			return dp[here][time];
+		}
+		
 		int ret = -Integer.MAX_VALUE / 2;
 		ret = Math.max(ret, go(here + 1, time - arr[here+1][0]) + arr[here+1][1]);
 		
 		ret = Math.max(ret, go(here + 1, time - arr[here+1][2]) + arr[here+1][3]);
 		
-		return ret;
+		return dp[here][time] = ret;
 	}
 }
