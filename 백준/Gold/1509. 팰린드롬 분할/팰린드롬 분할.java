@@ -3,26 +3,20 @@ import java.util.*;
 
 public class Main {
 
-	static int[][] dp2;
+	static final int INF = Integer.MAX_VALUE / 2;
 	static int N;
 	static int[][] dp;
+	static int[] dp2;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s = br.readLine();
         
+        N = s.length();
         char[] arr = s.toCharArray();
         
-        N = arr.length;
-        
         dp = new int[N][N];
-        dp2 = new int[N][N];
-        
-        for (int i = 0; i < N; i++) {
-        	for (int j = 0; j < N; j++) {
-        		dp2[i][j] = -1;
-        	}
-        }
-        
+        dp2 = new int[N];
+        Arrays.fill(dp2, -1);
         for (int i = 0; i < N; i++) {
         	dp[i][0] = 1;
         }
@@ -41,25 +35,29 @@ public class Main {
         		}
         	}
         }
-        System.out.println(go(0, 0));
+        System.out.println(go(0));
     } // main
     
-    static int go(int here, int size) {
+    static int go(int here) {
     	if (here == N) {
     		return 0;
     	}
     	
-    	if (dp2[here][size] != -1) {
-    		return dp2[here][size];
+    	if (here > N) {
+    		return INF;
     	}
     	
-    	int ret = Integer.MAX_VALUE / 2;
+    	if (dp2[here] != -1) {
+    		return dp2[here];
+    	}
+    	
+    	int ret = INF;
     	for (int i = 0; i < N; i++) {
     		if (dp[here][i] == 1) {
-    			ret = Math.min(ret, go(here + i + 1, 0) + 1);
+    			ret = Math.min(ret, go(here + i + 1) + 1);
     		}
     	}
-    	return dp2[here][size] = ret;
-    } // go
-   
+    	return dp2[here] = ret;
+    }
+    
 }
