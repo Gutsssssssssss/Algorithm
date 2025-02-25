@@ -9,13 +9,11 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         
         int[] arr = new int[N];
-        
         for (int i = 0; i < N; i++) {
         	arr[i] = Integer.parseInt(st.nextToken());
         }
         
         int[][] dp = new int[N][N];
-        
         for (int i = 0; i < N; i++) {
         	dp[i][i] = 1;
         }
@@ -35,8 +33,8 @@ public class Main {
         	}
         }
         
-        StringBuilder sb = new StringBuilder();
         int M = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < M; i++) {
         	st = new StringTokenizer(br.readLine());
         	sb.append(dp[Integer.parseInt(st.nextToken()) - 1][Integer.parseInt(st.nextToken()) - 1]).append("\n");
@@ -44,5 +42,4 @@ public class Main {
         System.out.println(sb);
     } // main
     
-   
 }
