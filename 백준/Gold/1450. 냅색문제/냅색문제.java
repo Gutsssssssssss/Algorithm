@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        
         N = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
         
@@ -16,44 +17,44 @@ public class Main {
         for (int i = 0; i < N; i++) {
         	arr[i] = Integer.parseInt(st.nextToken());
         }
+        int mid = (N / 2);
+        List<Long> list1 = new ArrayList<Long>(); 
+        List<Long> list2 = new ArrayList<Long>(); 
+        go(0, mid, list1, 0);
+        go(mid, N, list2, 0);
         
-        List<Long> list1 = new ArrayList<Long>();
-        List<Long> list2 = new ArrayList<Long>();
-        go(0, N / 2, list1, 0);
-        go(N / 2, N, list2, 0);
-        
-        Collections.sort(list1);
         Collections.sort(list2);
-        
-        long sum = 0;
-        for (Long cur : list1) {
-        	if (cur > C) continue;
-        	int val = upperbound(list2, (C - cur));
-        	sum += val;
+        long cnt = 0;
+        for (long cur : list1) {
+        	if (C - cur < 0) continue;
+        	long pos = upperbound((C - cur), list2);
+        	cnt += pos;
         }
-        System.out.println(sum);
+        System.out.println(cnt);
     } // main
-    
-    static int upperbound(List<Long> list, long val) {
-    	int lo = 0; int hi = list.size() - 1;
+    static int upperbound(long val, List<Long> list) {
+    	int lo = 0;
+    	int hi = list.size() - 1;
     	while (lo <= hi) {
     		int mid = (lo + hi) >>> 1;
-    		if (list.get(mid) <= val) {
-    			lo = mid + 1;
-    		} else {
-    			hi = mid - 1;
-    		}
+        	if (val >= list.get(mid)) {
+        		lo = mid + 1;
+        	} else {
+        		hi = mid - 1;
+        	}
     	}
     	return lo;
     }
     
-    static void go(int start, int end, List<Long> list, long sum) {
-    	if (start == end) {
+    static void go(int s, int e, List<Long> list, long sum) {
+    	if (s == e) {
     		list.add(sum);
     		return;
     	}
     	
-    	go(start + 1, end, list, sum);
-    	go(start + 1, end, list, sum + arr[start]);
+    	go(s + 1, e, list, sum);
+    	go(s + 1, e, list, sum + arr[s]);
+    	
     }
+
 }
