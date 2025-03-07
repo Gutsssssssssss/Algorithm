@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
+        
         StringTokenizer st = new StringTokenizer(br.readLine());
         
         int[] arr = new int[N];
@@ -14,6 +15,7 @@ public class Main {
         }
         
         int[][] dp = new int[N][N];
+        
         for (int i = 0; i < N; i++) {
         	dp[i][i] = 1;
         }
@@ -33,13 +35,14 @@ public class Main {
         	}
         }
         
-        int M = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
+        int M = Integer.parseInt(br.readLine());
         for (int i = 0; i < M; i++) {
         	st = new StringTokenizer(br.readLine());
         	sb.append(dp[Integer.parseInt(st.nextToken()) - 1][Integer.parseInt(st.nextToken()) - 1]).append("\n");
         }
         System.out.println(sb);
     } // main
+    
     
 }
