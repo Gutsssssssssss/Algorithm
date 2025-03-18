@@ -4,12 +4,11 @@ import java.util.*;
 
 public class Main {
 	
-	
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int TC = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
-        for (int T = 1; T <= TC; T++) {
+        for (int TC = 1; TC <= T; TC++) {
         	int N = Integer.parseInt(br.readLine());
         	
         	int cnt = 0;
@@ -21,4 +20,5 @@ public class Main {
         System.out.println(sb);
     } // main
     
+
 }
