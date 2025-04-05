@@ -2,34 +2,27 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        List<Integer> list = new LinkedList<>();
+        PriorityQueue<Integer> minPq = new PriorityQueue<>();
+        PriorityQueue<Integer> maxPq = new PriorityQueue<>(Collections.reverseOrder());
+        
         for (int i = 0; i < operations.length; i++) {
-            String s = operations[i];
-            StringTokenizer st = new StringTokenizer(s);
+            StringTokenizer st = new StringTokenizer(operations[i]);
             String op = st.nextToken();
             int num = Integer.parseInt(st.nextToken());
             if (op.equals("I")) {
-                list.add(num);
+                minPq.add(num);
+                maxPq.add(num);
             } else {
-                if (list.size() == 0) continue;
-                if (num == -1) {
-                    Collections.sort(list);
-                    list.remove(0);
+                if (minPq.isEmpty() && maxPq.isEmpty()) continue;
+                if (num == 1) {
+                    minPq.remove(maxPq.poll());
                 } else {
-                    Collections.sort(list, Collections.reverseOrder());
-                    list.remove(0);
+                    maxPq.remove(minPq.poll());
                 }
             }
         }
-        System.out.println(list.size());
-        Collections.sort(list);
-        if (list.size() == 0) {
-            int[] answer = {0, 0};
-            return answer;
-        }
-        
-        int[] answer = {list.get(list.size()-1), list.get(0)};
-        
+        if (minPq.isEmpty() && maxPq.isEmpty()) return new int[] {0, 0};
+        int[] answer = {maxPq.peek(), minPq.peek()};
         return answer;
     }
 }
