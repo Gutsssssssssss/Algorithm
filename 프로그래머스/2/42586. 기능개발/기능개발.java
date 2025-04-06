@@ -2,26 +2,19 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] arr = new int[speeds.length];
-        
-        for (int i = 0; i < speeds.length; i++) {
-            arr[i] = ((100 - progresses[i]) / speeds[i]) + ((100 - progresses[i]) % speeds[i] != 0 ? 1 : 0);
-        }
-        Queue<Integer> stk = new ArrayDeque<>();
-        
+        Queue<Integer> q = new LinkedList<>();
         List<Integer> ans = new ArrayList<>();
-        
-        for (int i = 0; i < arr.length; i++) {
-            if (!stk.isEmpty() && stk.peek() < arr[i]) {
-                ans.add(stk.size());
-                stk.clear();
-                stk.add(arr[i]);
-            } else {
-                stk.add(arr[i]);
+        for (int i = 0; i < progresses.length; i++) {
+            int val = ((100 - progresses[i]) / speeds[i]) + (((100 - progresses[i]) % speeds[i]) != 0 ? 1 : 0);
+            System.out.println(val);
+            if (!q.isEmpty() && q.peek() < val) {
+                ans.add(q.size());
+                q.clear();
             }
+            q.add(val);
         }
-        ans.add(stk.size());
-        int[] answer = ans.stream().mapToInt(Integer::intValue).toArray();
-        return answer;
+        if (q.size() > 0) ans.add(q.size());
+        
+        return ans.stream().mapToInt(Integer::intValue).toArray();
     }
 }
