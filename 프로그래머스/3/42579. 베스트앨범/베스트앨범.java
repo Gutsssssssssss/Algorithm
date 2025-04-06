@@ -1,38 +1,43 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        
-        Map<String, Integer> sum = new HashMap<>();
-        Map<String, List<Integer>> map = new HashMap<>();
+        Map<String, Integer> sumMap = new HashMap<>();
+        Map<String, List<Integer>> listMap = new HashMap<>();
         
         for (int i = 0; i < genres.length; i++) {
-            if (!sum.containsKey(genres[i])) {
+            if (!listMap.containsKey(genres[i])) {
                 List<Integer> list = new ArrayList<>();
                 list.add(i);
-                map.put(genres[i], list);
-                sum.put(genres[i], plays[i]);
+                listMap.put(genres[i], list);
+                sumMap.put(genres[i], sumMap.getOrDefault(genres[i], 0) + plays[i]);
             } else {
-                sum.put(genres[i], sum.get(genres[i]) + plays[i]);
-                map.get(genres[i]).add(i);
+                listMap.get(genres[i]).add(i);
+                sumMap.put(genres[i], sumMap.getOrDefault(genres[i], 0) + plays[i]);
             }
         }
         
-        List<String> keySet = new ArrayList<>(sum.keySet());
-        Collections.sort(keySet, (a, b) -> sum.get(b) - sum.get(a));
+        List<String> keySet = new ArrayList<>(sumMap.keySet());
+        Collections.sort(keySet, (a, b) -> sumMap.get(b) - sumMap.get(a));
         
+        // 장르 앞에서부터 차례로 
+        // 장르 안에 노래 2개 뽑기
+        // 1개면 1개만 뽑기
         List<Integer> ans = new ArrayList<>();
         for (String s : keySet) {
-            List<Integer> l = map.get(s);
-            if (l.size() == 1) {
-                ans.add(l.get(0));
-                continue;
+            List<Integer> llist = listMap.get(s);
+            Collections.sort(llist, (a, b) -> plays[b] - plays[a]);
+            if (llist.size() == 1) {
+                ans.add(llist.get(0));
+            } else {
+                ans.add(llist.get(0));
+                ans.add(llist.get(1));
+                if (llist.size() > 2) System.out.println(llist.get(2));
             }
-            Collections.sort(l, (a, b) -> plays[b] - plays[a]);
-            ans.add(l.get(0));
-            ans.add(l.get(1));
         }
         
-        int[] answer = ans.stream().mapToInt(i -> i).toArray();
+        int[] answer = ans.stream().mapToInt(Integer::intValue).toArray();
         return answer;
     }
+
 }
