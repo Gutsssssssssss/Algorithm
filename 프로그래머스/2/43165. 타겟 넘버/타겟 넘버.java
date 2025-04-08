@@ -2,24 +2,23 @@ class Solution {
     int N;
     int[] numbers;
     int target;
-    int cnt;
+    int answer;
     public int solution(int[] numbers, int target) {
         N = numbers.length;
-        this.target = target;
         this.numbers = numbers;
-        go(0, 0);
-        int answer = cnt;
+        this.target = target;
+        dfs(0, 0);
+        
         return answer;
-    } // main
+    }
     
-    void go(int idx, int sum) {
+    void dfs(int idx, int sum) {
         if (idx == N) {
-            if (sum == target) {
-                cnt++;
-            }
+            if (sum == target) answer++;
             return;
         }
-        go(idx + 1, sum + numbers[idx]);
-        go(idx + 1, sum - numbers[idx]);
+        
+        dfs(idx + 1, sum + numbers[idx]);
+        dfs(idx + 1, sum - numbers[idx]);
     }
-} // class
+}
