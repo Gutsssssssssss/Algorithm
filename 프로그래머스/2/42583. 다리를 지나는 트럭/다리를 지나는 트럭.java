@@ -12,16 +12,18 @@ class Solution {
         int answer = 0;
         while (idx < truck_weights.length) {
             answer++;
-            sum -= q.poll();
+            int front = q.poll();
+            sum -= front;
             
             if (sum + truck_weights[idx] <= weight) {
-                q.add(truck_weights[idx]);
                 sum += truck_weights[idx];
+                q.add(truck_weights[idx]);
                 idx++;
             } else {
                 q.add(0);
             }
         }
+        
         return answer + bridge_length;
     }
 }
