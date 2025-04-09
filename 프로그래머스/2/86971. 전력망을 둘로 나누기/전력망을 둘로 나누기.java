@@ -1,60 +1,39 @@
 import java.util.*;
+
 class Solution {
-    List<List<Integer>> adj;
     public int solution(int n, int[][] wires) {
-        adj = new ArrayList<>();
+        List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i <= n; i++) {
             adj.add(new ArrayList<>());
         }
-        
         for (int i = 0; i < wires.length; i++) {
-            adj.get(wires[i][0]).add(wires[i][1]);
-            adj.get(wires[i][1]).add(wires[i][0]);
+            int[] wire = wires[i];
+            adj.get(wire[0]).add(wire[1]);
+            adj.get(wire[1]).add(wire[0]);
         }
-        
-        if (n == 2) return 0;
-        
         int answer = Integer.MAX_VALUE / 2;
         for (int i = 0; i < wires.length; i++) {
             int[] wire = wires[i];
-            answer = Math.min(answer, bfs(wire[0], wire[1], adj));
+            adj.get(wire[0]).remove((Integer) wire[1]);   
+            adj.get(wire[1]).remove((Integer) wire[0]);
+            boolean[] visited = new boolean[n+1];
+            int cnt = dfs(1, adj, visited);
+            int val = Math.abs(cnt - (n - cnt));
+            answer = Math.min(answer, val);
+            adj.get(wire[0]).add(wire[1]);
+            adj.get(wire[1]).add(wire[0]);
         }
         
         return answer;
-    } // main
-    int bfs(int v1, int v2, List<List<Integer>> adj) {
-        boolean[] visited = new boolean[adj.size()];
-        
-        visited[v1] = true;
-        visited[v2] = true;
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(v2);
-        int cnt1 = 1;
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int next : adj.get(cur)) {
-                if (visited[next]) continue;
-                visited[next] = true;
-                cnt1++;
-                q.add(next);
-            }
+    }
+    
+    int dfs(int here, List<List<Integer>> adj, boolean[] visited) {
+        visited[here] = true;
+        int cnt = 1;
+        for (int next : adj.get(here)) {
+            if (visited[next]) continue;
+            cnt += dfs(next, adj, visited);
         }
-        
-        int cnt2 = 1;
-        visited = new boolean[adj.size()];
-        q.add(v1);
-        visited[v1] = true;
-        visited[v2] = true;
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int next : adj.get(cur)) {
-                if (visited[next]) continue;
-                visited[next] = true;
-                cnt2++;
-                q.add(next);
-            }
-        }
-        System.out.println(cnt1 + " : " + cnt2);
-        return Math.abs(cnt1 - cnt2);
+        return cnt;
     }
 }
