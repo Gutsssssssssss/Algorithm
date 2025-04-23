@@ -1,30 +1,39 @@
+
 import java.util.*;
+import java.io.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int K = sc.nextInt();
-        int[] nums = new int[N];
+class Main {
 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        
+        int[] arr = new int[N];
+        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            nums[i] = sc.nextInt();
+        	arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        int[] freq = new int[100001];  // 숫자는 1 ~ 100000
-        int lo = 0, hi = 0, maxLen = 0;
-
-        while (hi < N) {
-            if (freq[nums[hi]] < K) {
-                freq[nums[hi]]++;
-                hi++;
-                maxLen = Math.max(maxLen, hi - lo);
-            } else {
-                freq[nums[lo]]--;
-                lo++;
-            }
+        
+        int[] cnt = new int[100001];
+        
+        int lo = 0; int hi = 0;
+        int mxLen = 0;
+        cnt[arr[hi]]++; 
+        while (hi + 1 < N) {
+        		hi++;
+            	cnt[arr[hi]]++;
+        	
+        	
+        	while (lo < N && K < cnt[arr[hi]]) {
+        		cnt[arr[lo]]--;
+        		lo++;
+        	}
+        	mxLen = Math.max(mxLen, hi - lo);
         }
+        System.out.println(mxLen + 1);
+    } // main
 
-        System.out.println(maxLen);
-    }
+   
 }
