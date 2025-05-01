@@ -1,13 +1,16 @@
 
-import java.io.*;
-import java.util.*;
 
-public class Main {
-	
+import java.util.*;
+import java.io.*;
+
+class Main {
+
 	static int N, M;
 	static int[] arr;
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        // 최소금액K구하기
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
@@ -17,8 +20,8 @@ public class Main {
         int hi = 0;
         for (int i = 0; i < N; i++) {
         	arr[i] = Integer.parseInt(br.readLine());
-        	lo = Math.max(arr[i], lo);
         	hi += arr[i];
+        	lo = Math.max(lo, arr[i]);
         }
         
         int ret = 0;
@@ -44,6 +47,6 @@ public class Main {
     		}
     		temp -= arr[i];
     	}
-    	return cnt <= M;
+    	return M >= cnt;
     }
 }
