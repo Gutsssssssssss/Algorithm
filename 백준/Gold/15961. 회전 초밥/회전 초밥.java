@@ -1,5 +1,4 @@
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,37 +15,34 @@ public class Main {
 		int d = Integer.parseInt(st.nextToken());
 		int k = Integer.parseInt(st.nextToken());
 		int c = Integer.parseInt(st.nextToken());
-		boolean flag = false;
+
 		int[] arr = new int[N];
 		for (int i = 0; i < N; i++) {
 			arr[i] = Integer.parseInt(br.readLine());
-			if (arr[i] == c) flag = true;
 		}
 		
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		
+		int[] cnt = new int[d+1];
 		int lo = 0;
 		int hi = lo + k - 1;
+		int len = 0;
 		for (int i = lo; i <= hi; i++) {
-			map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+			if (cnt[arr[i]] == 0) len++;
+			cnt[arr[i]]++;
 		}
 		int mx = -1;
 		while (true) {
-			int cnt = map.keySet().size();
-			if (cnt >= mx) {
-				mx = cnt;
-				if (!map.keySet().contains(c)) mx++;
+			if (len >= mx) {
+				mx = len;
+				if (cnt[c] == 0) mx++;
 			}
 			if (lo == N - 1) break;
-			int s = map.get(arr[lo]);
-			if (s == 1) {
-				map.remove(arr[lo]);
-			} else {
-				map.put(arr[lo], s - 1);
-			}
+			cnt[arr[lo]]--;
+			if (cnt[arr[lo]] == 0) len--;
 			lo++;
 			hi = (hi + 1) % N;
-			map.put(arr[hi], map.getOrDefault(arr[hi], 0) + 1);
+			if (cnt[arr[hi]] == 0) len++;
+			cnt[arr[hi]]++;
 		}
 		System.out.println(mx);
 	} // main
