@@ -2,20 +2,18 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
-        int N = nums.length;
-        int K = N / 2;
-        
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
-        }
-        Set<Integer> keySet = map.keySet();
         int answer = 0;
-        if (keySet.size() <= K) {
-            answer = keySet.size();
-        } else {
-            answer = K;
+        // 뽑아야 하는 수 == r
+        // 전체 종류의 수 == n
+        // r >= n -> n
+        // r < n -> r
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i : nums) {
+            int temp = map.getOrDefault(i, 0);
+            map.put(i, ++temp);
         }
-        return answer;
+        int n = map.keySet().size();
+        int r = nums.length / 2;
+        return Math.min(n, r);
     }
 }
